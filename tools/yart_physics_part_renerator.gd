@@ -7,6 +7,7 @@ var node_root: Line2D
 var node_segments
 
 var tscn_yarn_segment = preload("res://obj/yarn_segment.tscn")
+var tscn_yarn_segment_joint = preload("res://obj/yarn_segment_joint.tscn")
 var density = 16.0
 
 
@@ -20,6 +21,7 @@ func _run():
 	
 	# create first segment
 	var cur_segment = create_segment(node_root.points[0], null)
+	cur_segment.applied_force = Vector2(200, 0)
 	
 	# create segments
 	for i in range(1, node_root.points.size()):
@@ -40,10 +42,12 @@ func create_segment(pos, pinned_obj):
 	new_segment.position = pos
 
 	node_segments.add_child(new_segment)
-	new_segment.set_owner(node_segments.get_tree().get_edited_scene_root())
+	new_segment.set_owner(node_root)
 	
 	if not pinned_obj == null:
-		var node_joint = new_segment.get_node("SegmentJoint")
-		node_joint.node_a = node_joint.get_path_to(pinned_obj)
+		var new_joint = tscn_yarn_segment_joint.instance()
+		new_segment.add_child(new_joint)
+		
+		new_joint.node_a = new_joint.get_path_to(pinned_obj)
 	
 	return new_segment

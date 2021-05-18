@@ -9,31 +9,49 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Movable",
-"class": "Ball",
-"language": "GDScript",
-"path": "res://obj/ball.gd"
-}, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://git_api.gdns"
 }, {
 "base": "Area2D",
+"class": "Hole",
+"language": "GDScript",
+"path": "res://obj/hole.gd"
+}, {
+"base": "Area2D",
 "class": "Movable",
 "language": "GDScript",
 "path": "res://entities/movable.gd"
 }, {
-"base": "Area2D",
+"base": "Hole",
 "class": "Reel",
 "language": "GDScript",
 "path": "res://obj/reel.gd"
+}, {
+"base": "Line2D",
+"class": "Yarn",
+"language": "GDScript",
+"path": "res://obj/yarn.gd"
+}, {
+"base": "Movable",
+"class": "YarnBall",
+"language": "GDScript",
+"path": "res://obj/ball.gd"
+}, {
+"base": "RigidBody2D",
+"class": "YarnSegment",
+"language": "GDScript",
+"path": "res://obj/yarn_segment.gd"
 } ]
 _global_script_class_icons={
-"Ball": "",
 "GitAPI": "",
+"Hole": "",
 "Movable": "",
-"Reel": ""
+"Reel": "",
+"Yarn": "",
+"YarnBall": "",
+"YarnSegment": ""
 }
 
 [application]

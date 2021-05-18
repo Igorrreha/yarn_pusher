@@ -1,0 +1,4 @@
+[gd_scene format=2]
+
+[node name="SegmentJoint" type="PinJoint2D"]
+node_b = NodePath("..")

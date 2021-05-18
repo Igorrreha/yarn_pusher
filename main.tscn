@@ -36,7 +36,7 @@ position = Vector2( 12, 60 )
 [node name="Reels" type="Node2D" parent="Game"]
 
 [node name="Reel" parent="Game/Reels" instance=ExtResource( 6 )]
-position = Vector2( 132, 84 )
+position = Vector2( 156, 84 )
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 layer = 1

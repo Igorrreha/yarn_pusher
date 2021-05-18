@@ -20,5 +20,5 @@ cast_to = Vector2( 32, 0 )
 collision_mask = 4
 collide_with_areas = true
 
-[connection signal="area_entered" from="." to="." method="_on_Ball_area_entered"]
+[connection signal="area_entered" from="." to="." method="_on_Movable_area_entered"]
 [connection signal="tween_all_completed" from="TweenMove" to="." method="_on_TweenMove_tween_all_completed"]

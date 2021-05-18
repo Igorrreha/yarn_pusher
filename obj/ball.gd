@@ -1,10 +1,9 @@
 extends Movable
 
-class_name Ball
+class_name YarnBall
 
 
 var node_yarn: Line2D
-onready var node_collision_shape = $CollisionShape2D
 
 
 func _physics_process(delta):
@@ -13,6 +12,7 @@ func _physics_process(delta):
 
 
 func on_push():
+	.on_push()
 	add_yarn_point()
 
 
@@ -28,11 +28,6 @@ func add_yarn_point():
 
 
 func fall_into(obj):
-	node_collision_shape.set_deferred("disabled", true)
-	cur_state = States.LOCKED
-
-
-func _on_Ball_area_entered(area):
-	if area is Reel:
-		area.fill(self)
-		fall_into(area)
+	.fall_into(obj)
+	
+	node_yarn.start_reeling()

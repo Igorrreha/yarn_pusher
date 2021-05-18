@@ -21,7 +21,7 @@ func _ready():
 
 
 func push_obj(obj, push_vec: Vector2):
-	if obj is Ball:
+	if obj is Movable:
 		obj.move_buffer = push_vec
 		obj.move(obj.move_buffer)
 		

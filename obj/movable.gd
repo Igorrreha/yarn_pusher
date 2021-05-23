@@ -16,9 +16,11 @@ export var move_dur = 0.2
 export var move_buffer = Vector2()
 export var is_fallable = true
 
+var node_holder_hole: Hole
+
 onready var node_move_tween: Tween = $TweenMove
 onready var node_move_ray: RayCast2D = $RayMove
-onready var node_collision_shape: CollisionShape2D = $CollisionShape2D
+onready var node_collision_shape: CollisionShape2D = $CollisionShape2D 
 
 
 signal stopped_by_collision_with_obj(obj, move_vec)
@@ -63,15 +65,24 @@ func on_push():
 func fall_into(obj):
 	node_collision_shape.set_deferred("disabled", true)
 	cur_state = States.LOCKED
+	
+	node_holder_hole = obj
+
+
+func after_fall():
+	pass
 
 
 func clear_move_buffer():
 	move_buffer = Vector2()
 
 
+
 func _on_TweenMove_tween_all_completed():
 	if cur_state == States.LOCKED:
-		return
+		if is_fallable:
+			after_fall()
+			return
 	
 	cur_state = States.IDLE
 	
@@ -85,8 +96,9 @@ func _on_TweenMove_tween_all_completed():
 			move(move_buffer)
 
 
-func _on_Movable_area_entered(area):
+func _on_Movable_body_entered(body):
 	if is_fallable:
-		if area is Hole:
-			area.fill(self)
-			fall_into(area)
+		if body is Hole:
+			body.fill(self)
+			
+			call_deferred("fall_into", body)

@@ -1,4 +1,7 @@
 [gd_scene format=2]
 
-[node name="SegmentJoint" type="PinJoint2D"]
-node_b = NodePath("..")
+[node name="SegmentJoint" type="DampedSpringJoint2D"]
+length = 1.0
+rest_length = 1.0
+stiffness = 64.0
+damping = 16.0

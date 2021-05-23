@@ -9,12 +9,17 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "StaticBody2D",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://entities/enemy.gd"
+}, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://git_api.gdns"
 }, {
-"base": "Area2D",
+"base": "StaticBody2D",
 "class": "Hole",
 "language": "GDScript",
 "path": "res://obj/hole.gd"
@@ -22,7 +27,7 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "Movable",
 "language": "GDScript",
-"path": "res://entities/movable.gd"
+"path": "res://obj/movable.gd"
 }, {
 "base": "Hole",
 "class": "Reel",
@@ -39,18 +44,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://obj/ball.gd"
 }, {
+"base": "StaticBody2D",
+"class": "YarnGrabber",
+"language": "GDScript",
+"path": "res://obj/yarn_grabber.gd"
+}, {
 "base": "RigidBody2D",
 "class": "YarnSegment",
 "language": "GDScript",
 "path": "res://obj/yarn_segment.gd"
 } ]
 _global_script_class_icons={
+"Enemy": "",
 "GitAPI": "",
 "Hole": "",
 "Movable": "",
 "Reel": "",
 "Yarn": "",
 "YarnBall": "",
+"YarnGrabber": "",
 "YarnSegment": ""
 }
 
@@ -67,7 +79,7 @@ Global="*res://global.gd"
 [display]
 
 window/size/width=600
-window/size/height=200
+window/size/height=300
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
 
@@ -129,7 +141,10 @@ player_right={
 2d_physics/layer_2="ball"
 2d_render/layer_3="solid"
 2d_physics/layer_3="solid"
-2d_physics/layer_4="reel"
+2d_physics/layer_4="hole"
+2d_physics/layer_5="yarn_grabber"
+2d_physics/layer_6="enemy"
+2d_physics/layer_7="yarn"
 
 [physics]
 

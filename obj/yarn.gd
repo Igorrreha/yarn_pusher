@@ -1,10 +1,14 @@
-extends Line2D
+tool
 
 class_name Yarn
+extends Line2D
 
 
 signal pull_ended
 
+export (NodePath) var _segments_container_path setget _set_segments_container_path
+export (NodePath) var _ray_for_search_grabbers_path setget _set_ray_for_search_grabbers_path
+export (NodePath) var _tween_path setget _set_tween_path
 
 export var pull_dur = 2.0
 
@@ -13,19 +17,27 @@ var max_dist_between_segments = 8.0
 var points_physical_part = []
 var points_not_physical_part = []
 
-onready var node_segments = $Segments
-onready var node_ray_grabber_searcher = $RayGrabberSearcher
-onready var node_tween = $TweenReeling
+
+onready var _segments_container = get_node(_segments_container_path)
+onready var _ray_for_search_grabbers = get_node(_ray_for_search_grabbers_path)
+onready var _tween = get_node(_tween_path)
+
+
+func initialize(pos: Vector2):
+	add_point(pos)
 
 
 func _physics_process(delta):
-	if node_segments.get_child_count() > 0:
+	if Engine.editor_hint:
+		return
+	
+	if _segments_container.get_child_count() > 0:
 		
 		# add not physical points
 		points = points_not_physical_part
 		
 		# add physical points 
-		for segment in node_segments.get_children():
+		for segment in _segments_container.get_children():
 			add_point(segment.global_position)
 
 
@@ -33,10 +45,10 @@ func move_last_point(pos: Vector2):
 	points[points.size()-1] = pos
 
 
-func start_reeling(node_reel: Reel):
+func start_reeling(node_reeler: Reeler):
 	var node_grabber: YarnGrabber
 	
-	node_ray_grabber_searcher.enabled = true
+	_ray_for_search_grabbers.enabled = true
 	
 	# fill physical part points array
 	for i in range(points.size() - 1, 0, -1):
@@ -45,13 +57,13 @@ func start_reeling(node_reel: Reel):
 		points_physical_part.push_front(points[i])
 		
 		# searching for grabbers
-		node_ray_grabber_searcher.global_position = points[i]
-		node_ray_grabber_searcher.cast_to = points[i - 1] - points[i]
+		_ray_for_search_grabbers.global_position = points[i]
+		_ray_for_search_grabbers.cast_to = points[i - 1] - points[i]
 		
-		node_ray_grabber_searcher.force_raycast_update()
+		_ray_for_search_grabbers.force_raycast_update()
 		
-		if node_ray_grabber_searcher.is_colliding():
-			node_grabber = node_ray_grabber_searcher.get_collider()
+		if _ray_for_search_grabbers.is_colliding():
+			node_grabber = _ray_for_search_grabbers.get_collider()
 			points_physical_part.push_front(node_grabber.global_position)
 			
 			break
@@ -68,8 +80,8 @@ func start_reeling(node_reel: Reel):
 	
 	
 	# create first segment
-	var cur_segment = create_segment(points_physical_part[0], null)
-	node_grabber.node_joint.node_b = node_grabber.node_joint.get_path_to(cur_segment)
+	var cur_segment = _create_segment(points_physical_part[0], null)
+	node_grabber.grab(cur_segment)
 	
 	
 	# create segments
@@ -81,10 +93,10 @@ func start_reeling(node_reel: Reel):
 		var dist_between_segments = section_vec.length() / inner_segments_amount if inner_segments_amount > 0 else 0
 		
 		for j in range(inner_segments_amount):
-			cur_segment = create_segment(section_vec.normalized() * ((1 + j) * dist_between_segments) + points_physical_part[i-1], cur_segment)
+			cur_segment = _create_segment(section_vec.normalized() * ((1 + j) * dist_between_segments) + points_physical_part[i-1], cur_segment)
 	
 	
-	# connect last segment to reel
+	# connect last segment to reeler
 	var node_joint = Global.tscn_yarn_segment_joint.instance()
 	
 	node_joint.length = 1
@@ -93,26 +105,26 @@ func start_reeling(node_reel: Reel):
 	cur_segment.add_child(node_joint)
 	
 	node_joint.node_a = node_joint.get_path_to(cur_segment)
-	node_joint.node_b = node_joint.get_path_to(node_reel)
+	node_joint.node_b = node_joint.get_path_to(node_reeler)
 	
 	
 	# start reeling
-	node_tween.remove_all()
-	node_tween.interpolate_method(self, "pull_on", 1.0, 0.0, pull_dur)
-	node_tween.start()
+	_tween.remove_all()
+	_tween.interpolate_method(self, "_pull_on", 1.0, 0.0, pull_dur)
+	_tween.start()
 
 
-func pull_on(coef):
-	for segment in node_segments.get_children():
-		if not segment.node_joint == null:
-			segment.node_joint.rest_length = (segment.node_joint.length - 1) * coef + 1
+func _pull_on(coef):
+	for segment in _segments_container.get_children():
+		if not segment.joint == null:
+			segment.joint.rest_length = (segment.joint.length - 1) * coef + 1
 
 
-func create_segment(pos, pinned_obj):
+func _create_segment(pos, pinned_obj):
 	var new_segment = Global.tscn_yarn_segment.instance()
 	new_segment.position = pos
 	
-	node_segments.add_child(new_segment)
+	_segments_container.add_child(new_segment)
 	
 	if not pinned_obj == null:
 		var node_joint = Global.tscn_yarn_segment_joint.instance()
@@ -128,7 +140,44 @@ func create_segment(pos, pinned_obj):
 		node_joint.node_a = node_joint.get_path_to(new_segment)
 		node_joint.node_b = node_joint.get_path_to(pinned_obj)
 		
-		new_segment.node_joint = node_joint
+		new_segment.joint = node_joint
 	
 	return new_segment
 
+
+# SETTERS
+func _set_segments_container_path(new_value: NodePath):
+	_segments_container_path = new_value
+	
+	if Engine.editor_hint:
+		update_configuration_warning()
+
+
+func _set_ray_for_search_grabbers_path(new_value: NodePath):
+	_ray_for_search_grabbers_path = new_value
+	
+	if Engine.editor_hint:
+		update_configuration_warning()
+
+
+func _set_tween_path(new_value: NodePath):
+	_tween_path = new_value
+	
+	if Engine.editor_hint:
+		update_configuration_warning()
+
+
+# FOR EDITOR
+func _get_configuration_warning() -> String:
+	var message: String = ""
+	
+	if _segments_container_path.is_empty():
+		message += Warnings.field_is_empty("Segments Container Path")
+	
+	if _ray_for_search_grabbers_path.is_empty():
+		message += Warnings.field_is_empty("Ray For Search Grabbers Path")
+	
+	if _tween_path.is_empty():
+		message += Warnings.field_is_empty("Tween Path")
+	
+	return message.strip_edges()

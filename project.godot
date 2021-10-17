@@ -9,30 +9,150 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "Action",
+"language": "GDScript",
+"path": "res://utils/actions/action.gd"
+}, {
+"base": "Node",
+"class": "ActionWithActionName",
+"language": "GDScript",
+"path": "res://utils/actions/action_with_action_name.gd"
+}, {
+"base": "RichTextLabel",
+"class": "DialogueTextLabel",
+"language": "GDScript",
+"path": "res://ui/dialogue_window/dialogue_window.gd"
+}, {
 "base": "StaticBody2D",
 "class": "Enemy",
 "language": "GDScript",
 "path": "res://entities/enemy.gd"
+}, {
+"base": "Node",
+"class": "Game",
+"language": "GDScript",
+"path": "res://game.gd"
 }, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://git_api.gdns"
 }, {
+"base": "Movable",
+"class": "Hero",
+"language": "GDScript",
+"path": "res://entities/hero.gd"
+}, {
 "base": "StaticBody2D",
 "class": "Hole",
 "language": "GDScript",
-"path": "res://obj/hole.gd"
+"path": "res://obj/holes/hole.gd"
+}, {
+"base": "Task",
+"class": "KillAllEnemiesTask",
+"language": "GDScript",
+"path": "res://levels/tasks/kill_all_enemies_task.gd"
+}, {
+"base": "YSort",
+"class": "Level",
+"language": "GDScript",
+"path": "res://levels/level.gd"
+}, {
+"base": "Node",
+"class": "LevelChanger",
+"language": "GDScript",
+"path": "res://levels/level_changer.gd"
+}, {
+"base": "NodeSignalObserver",
+"class": "LevelSignalObserver",
+"language": "GDScript",
+"path": "res://levels/level_signal_observer.gd"
 }, {
 "base": "Area2D",
 "class": "Movable",
 "language": "GDScript",
-"path": "res://obj/movable.gd"
+"path": "res://obj/movables/movable.gd"
 }, {
-"base": "Hole",
-"class": "Reel",
+"base": "Node",
+"class": "NamedActionPackSet",
 "language": "GDScript",
-"path": "res://obj/reel.gd"
+"path": "res://utils/actions/named_action_pack_set.gd"
+}, {
+"base": "Node",
+"class": "NodeAction",
+"language": "GDScript",
+"path": "res://utils/actions/node_action.gd"
+}, {
+"base": "Node",
+"class": "NodeSignalObserver",
+"language": "GDScript",
+"path": "res://utils/observers/node_signal_observer.gd"
+}, {
+"base": "Movable",
+"class": "PowerBox",
+"language": "GDScript",
+"path": "res://obj/movables/power_box.gd"
+}, {
+"base": "Area2D",
+"class": "PowerSocket",
+"language": "GDScript",
+"path": "res://obj/holes/power_socket.gd"
+}, {
+"base": "Reference",
+"class": "Reeler",
+"language": "GDScript",
+"path": "res://obj/holes/reeler.gd"
+}, {
+"base": "RichTextEffect",
+"class": "RichTextGhost",
+"language": "GDScript",
+"path": "res://ui/rich_text_fx/ghost.gd"
+}, {
+"base": "RichTextEffect",
+"class": "RichTextMatrix",
+"language": "GDScript",
+"path": "res://ui/rich_text_fx/matrix.gd"
+}, {
+"base": "RichTextEffect",
+"class": "RichTextPulse",
+"language": "GDScript",
+"path": "res://ui/rich_text_fx/pulse.gd"
+}, {
+"base": "Reference",
+"class": "SignalArgumentBuffer",
+"language": "GDScript",
+"path": "res://utils/storage/signal_argument_buffer.gd"
+}, {
+"base": "Node",
+"class": "StringAction",
+"language": "GDScript",
+"path": "res://utils/actions/string_action.gd"
+}, {
+"base": "Node",
+"class": "SwipeHandler",
+"language": "GDScript",
+"path": "res://ui/swipe_handler.gd"
+}, {
+"base": "Node2D",
+"class": "Switch",
+"language": "GDScript",
+"path": "res://obj/switch.gd"
+}, {
+"base": "Node",
+"class": "Task",
+"language": "GDScript",
+"path": "res://levels/tasks/task.gd"
+}, {
+"base": "Node",
+"class": "TasksGroup",
+"language": "GDScript",
+"path": "res://levels/tasks/tasks_group.gd"
+}, {
+"base": "Reference",
+"class": "Warnings",
+"language": "GDScript",
+"path": "res://utils/configuration_warnings_shortcuts.gd"
 }, {
 "base": "Line2D",
 "class": "Yarn",
@@ -42,7 +162,7 @@ _global_script_classes=[ {
 "base": "Movable",
 "class": "YarnBall",
 "language": "GDScript",
-"path": "res://obj/ball.gd"
+"path": "res://obj/movables/yarn_ball.gd"
 }, {
 "base": "StaticBody2D",
 "class": "YarnGrabber",
@@ -55,11 +175,35 @@ _global_script_classes=[ {
 "path": "res://obj/yarn_segment.gd"
 } ]
 _global_script_class_icons={
+"Action": "",
+"ActionWithActionName": "",
+"DialogueTextLabel": "",
 "Enemy": "",
+"Game": "res://img/editor_icons/game.svg",
 "GitAPI": "",
+"Hero": "",
 "Hole": "",
+"KillAllEnemiesTask": "",
+"Level": "",
+"LevelChanger": "res://img/editor_icons/level_changer.svg",
+"LevelSignalObserver": "",
 "Movable": "",
-"Reel": "",
+"NamedActionPackSet": "",
+"NodeAction": "",
+"NodeSignalObserver": "",
+"PowerBox": "",
+"PowerSocket": "",
+"Reeler": "",
+"RichTextGhost": "",
+"RichTextMatrix": "",
+"RichTextPulse": "",
+"SignalArgumentBuffer": "",
+"StringAction": "",
+"SwipeHandler": "",
+"Switch": "",
+"Task": "",
+"TasksGroup": "",
+"Warnings": "",
 "Yarn": "",
 "YarnBall": "",
 "YarnGrabber": "",
@@ -68,7 +212,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="YarnPusher"
+config/name="InTheDark"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 
@@ -86,6 +230,10 @@ window/stretch/aspect="expand"
 [gdnative]
 
 singletons=[ "res://git_api.gdnlib" ]
+
+[global]
+
+window=false
 
 [importer_defaults]
 
@@ -133,6 +281,10 @@ player_right={
  ]
 }
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [layer_names]
 
 2d_render/layer_1="player"
@@ -141,10 +293,12 @@ player_right={
 2d_physics/layer_2="ball"
 2d_render/layer_3="solid"
 2d_physics/layer_3="solid"
-2d_physics/layer_4="hole"
+2d_physics/layer_4="solid_for_pushables"
 2d_physics/layer_5="yarn_grabber"
 2d_physics/layer_6="enemy"
 2d_physics/layer_7="yarn"
+2d_physics/layer_8="yarn_obstacle"
+2d_physics/layer_9="mov"
 
 [physics]
 
@@ -152,4 +306,5 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+environment/default_clear_color=Color( 0, 0, 0, 1 )
 environment/default_environment="res://default_env.tres"

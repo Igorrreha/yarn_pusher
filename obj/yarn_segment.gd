@@ -1,6 +1,5 @@
+class_name YarnSegment
 extends RigidBody2D
 
-class_name YarnSegment
 
-
-var node_joint: DampedSpringJoint2D
+var joint: DampedSpringJoint2D

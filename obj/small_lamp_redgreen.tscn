@@ -1,0 +1,95 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://utils/actions/string_action.gd" type="Script" id=1]
+[ext_resource path="res://obj/switch.gd" type="Script" id=2]
+[ext_resource path="res://img/lamp__small.png" type="Texture" id=3]
+[ext_resource path="res://img/light.png" type="Texture" id=4]
+
+[sub_resource type="Animation" id=1]
+resource_name = "active"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.603922, 0.921569, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.603922, 0.921569, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "unactive"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.698039, 0.0627451, 0.188235, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.698039, 0.0627451, 0.188235, 1 ) ]
+}
+
+[node name="SmallLampRedGreen" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.698039, 0.0627451, 0.188235, 1 )
+show_behind_parent = true
+scale = Vector2( 4, 4 )
+texture = ExtResource( 3 )
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = ExtResource( 4 )
+texture_scale = 0.25
+color = Color( 0.698039, 0.0627451, 0.188235, 1 )
+energy = 0.8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "unactive"
+anims/active = SubResource( 1 )
+anims/unactive = SubResource( 2 )
+
+[node name="Activate" type="Node" parent="AnimationPlayer"]
+script = ExtResource( 1 )
+_string = "active"
+
+[node name="Deactivate" type="Node" parent="AnimationPlayer"]
+script = ExtResource( 1 )
+_string = "unactive"
+
+[connection signal="activated" from="." to="AnimationPlayer/Activate" method="do"]
+[connection signal="deactivated" from="." to="AnimationPlayer/Deactivate" method="do"]
+[connection signal="done" from="AnimationPlayer/Activate" to="AnimationPlayer" method="play"]
+[connection signal="done" from="AnimationPlayer/Deactivate" to="AnimationPlayer" method="play"]

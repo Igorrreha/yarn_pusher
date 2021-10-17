@@ -9,10 +9,13 @@ joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 script = ExtResource( 1 )
+_segments_container_path = NodePath("Segments")
+_ray_for_search_grabbers_path = NodePath("RayForSearchGrabbers")
+_tween_path = NodePath("TweenReeling")
 
 [node name="Segments" type="Node2D" parent="."]
 
-[node name="RayGrabberSearcher" type="RayCast2D" parent="."]
+[node name="RayForSearchGrabbers" type="RayCast2D" parent="."]
 cast_to = Vector2( 50, 0 )
 collision_mask = 16
 

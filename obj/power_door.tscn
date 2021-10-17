@@ -1,0 +1,144 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://img/power_door.png" type="Texture" id=1]
+[ext_resource path="res://obj/power_door.gd" type="Script" id=2]
+[ext_resource path="res://utils/actions/string_action.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 22, 22 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "active"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 3 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LightOccluder2D:occluder:polygon")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ PoolVector2Array( -22, -22, -22, -18, 22, -18, 22, -22 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("LightOccluder2D2:occluder:polygon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ PoolVector2Array( -22, 18, -22, 22, 22, 22, 22, 18 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "unactive"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LightOccluder2D:occluder:polygon")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ PoolVector2Array( -22, -22, -22, 22, 22, 22, 22, -22 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("LightOccluder2D2:occluder:polygon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ PoolVector2Array(  ) ]
+}
+
+[sub_resource type="OccluderPolygon2D" id=2]
+polygon = PoolVector2Array( -22, -22, -22, -18, 22, -18, 22, -22 )
+
+[sub_resource type="OccluderPolygon2D" id=5]
+polygon = PoolVector2Array( -22, 18, -22, 22, 22, 22, 22, 18 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 18, 18 )
+
+[node name="PowerDoor" type="Area2D"]
+monitoring = false
+collision_layer = 4
+collision_mask = 0
+script = ExtResource( 2 )
+_collision_shape_path = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 4, 4 )
+texture = ExtResource( 1 )
+hframes = 4
+frame = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "unactive"
+anims/active = SubResource( 4 )
+anims/unactive = SubResource( 3 )
+
+[node name="Activate" type="Node" parent="AnimationPlayer"]
+script = ExtResource( 3 )
+_string = "active"
+
+[node name="Deactivate" type="Node" parent="AnimationPlayer"]
+script = ExtResource( 3 )
+_string = "unactive"
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource( 2 )
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="."]
+occluder = SubResource( 5 )
+
+[node name="WallForPushables" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallForPushables"]
+shape = SubResource( 6 )
+
+[connection signal="activated" from="." to="AnimationPlayer/Activate" method="do"]
+[connection signal="deactivated" from="." to="AnimationPlayer/Deactivate" method="do"]
+[connection signal="done" from="AnimationPlayer/Activate" to="AnimationPlayer" method="play"]
+[connection signal="done" from="AnimationPlayer/Deactivate" to="AnimationPlayer" method="play"]

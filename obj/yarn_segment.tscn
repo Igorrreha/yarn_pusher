@@ -7,7 +7,7 @@ radius = 4.0
 
 [node name="YarnSegment" type="RigidBody2D"]
 collision_layer = 64
-collision_mask = 36
+collision_mask = 0
 mass = 0.1
 gravity_scale = 0.0
 can_sleep = false

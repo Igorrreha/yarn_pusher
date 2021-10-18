@@ -61,6 +61,7 @@ cell_size = Vector2( 11, 11 )
 collision_layer = 4
 collision_mask = 0
 format = 1
+tile_data = PoolIntArray( 589829, 0, 0, 655365, 0, 0, 655366, 2, 0, 655367, 1, 0, 786437, 0, 0, 786438, 2, 0, 786439, 1, 0, 851973, 0, 0 )
 
 [node name="HeroCollisionDetectors" type="Node2D" parent="."]
 
@@ -79,17 +80,17 @@ position = Vector2( 132, 132 )
 [node name="PowerBoxes" type="Node2D" parent="."]
 
 [node name="PowerBox" parent="PowerBoxes" instance=ExtResource( 2 )]
-position = Vector2( 132, 88 )
+position = Vector2( 44, 176 )
 
 [node name="Doors" type="Node2D" parent="."]
 
 [node name="PowerDoor" parent="Doors" instance=ExtResource( 6 )]
-position = Vector2( 132, 220 )
+position = Vector2( 440, 176 )
 
 [node name="Lamps" type="Node2D" parent="."]
 
 [node name="SmallLampRedGreen" parent="Lamps" instance=ExtResource( 7 )]
-position = Vector2( 132, 176 )
+position = Vector2( 44, 132 )
 
 [node name="Cat" parent="." instance=ExtResource( 10 )]
 position = Vector2( 44, 88 )

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://ui/fps_label.gd" type="Script" id=1]
 [ext_resource path="res://levels/level_changer.gd" type="Script" id=2]
@@ -6,9 +6,7 @@
 [ext_resource path="res://utils/actions/action.gd" type="Script" id=4]
 [ext_resource path="res://utils/actions/string_action.gd" type="Script" id=5]
 [ext_resource path="res://utils/actions/action_with_action_name.gd" type="Script" id=6]
-[ext_resource path="res://ui/dialogue_window/dialogue_window.gd" type="Script" id=7]
 [ext_resource path="res://utils/storage/signal_argument_buffer.gd" type="Script" id=8]
-[ext_resource path="res://ui/rich_text_fx/ghost.gd" type="Script" id=9]
 [ext_resource path="res://utils/actions/named_action_pack_set.gd" type="Script" id=10]
 [ext_resource path="res://levels/level_signal_observer.gd" type="Script" id=12]
 
@@ -81,9 +79,6 @@ tracks/1/keys = {
 "update": 0,
 "values": [ 0.0, 1.0 ]
 }
-
-[sub_resource type="RichTextEffect" id=4]
-script = ExtResource( 9 )
 
 [node name="Main" type="Node"]
 
@@ -180,25 +175,6 @@ script = ExtResource( 8 )
 autoplay = "out"
 anims/in = SubResource( 2 )
 anims/out = SubResource( 3 )
-
-[node name="DialogueWindow" type="RichTextLabel" parent="ParallaxBackground/UI"]
-pause_mode = 2
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_clip_content = false
-script = ExtResource( 7 )
-
-[node name="RichTextLabel" type="RichTextLabel" parent="ParallaxBackground/UI/DialogueWindow"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_clip_content = false
-bbcode_enabled = true
-bbcode_text = "[ghost]pulce"
-text = "pulce"
-custom_effects = [ SubResource( 4 ) ]
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="ready" from="Game" to="Game/LevelChanger" method="change" binds= [ "0" ]]
 [connection signal="changed" from="Game/LevelChanger" to="Game/LevelChanger/OnChangedActionPackSet" method="do_pack"]

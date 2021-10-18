@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
+"base": "Reference",
 "class": "Action",
 "language": "GDScript",
 "path": "res://utils/actions/action.gd"
@@ -99,7 +99,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://obj/holes/power_socket.gd"
 }, {
-"base": "Hole",
+"base": "Reference",
 "class": "Reeler",
 "language": "GDScript",
 "path": "res://obj/holes/reeler.gd"
@@ -119,7 +119,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/rich_text_fx/pulse.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "SignalArgumentBuffer",
 "language": "GDScript",
 "path": "res://utils/storage/signal_argument_buffer.gd"
